@@ -17,3 +17,11 @@ export function options(data) {
 export function vote(data) {
   return http.post(`vote/vote`, data);
 }
+// /isite/voteApp/options//查询投票列表/isite/vote/options
+export function optionsApp(data) {
+  return http.post(`voteApp/options`, data);
+}
+//投票 /isite/voteApp/vote
+export function voteApp(data) {
+  return http.post(`voteApp/vote`, data);
+}

@@ -41,7 +41,7 @@ http.interceptors.response.use(
         // console.log(response);
         const res = response.data;
         if(response.data.code==400){
-            showFailToast(response.data.message)
+            // showFailToast(response.data.message)
         }
         return res
         // if (res.code == 200 || res.code == 0 || res.meta.code == '1'||res.code==400||res.code==401) {

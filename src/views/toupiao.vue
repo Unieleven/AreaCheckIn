@@ -76,8 +76,17 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { Button, message } from "ant-design-vue";
-import { sendVerifyCode, codeVerify, options, vote } from "@/api/toupiao.js";
+import {
+  sendVerifyCode,
+  codeVerify,
+  options,
+  optionsApp,
+  vote,
+  voteApp,
+} from "@/api/toupiao.js";
 import { showSuccessToast, showFailToast } from "vant";
+import { useRoute, useRouter } from "vue-router";
+const route = useRoute();
 // 登录按钮loading
 const loginLoading = ref();
 // 登录按钮禁用
@@ -157,46 +166,71 @@ const verifyCode = () => {
   });
 };
 // 获取列表
-const getList = () => {
-  options({
-    phone: localStorage.getItem("phone") || "",
-    code: localStorage.getItem("code") || "",
-  }).then((res) => {
-    if (res.code == 400) {
-      showLogin.value = true;
-    } else {
-      optionsList.value = res.data.voteOptionList || [];
-      res.data.voteOptionList.forEach((item) => {
-        if (item.isSelect) {
-          arrayVoteIds.value.push(item.id); // 将选中的ID添加到数组
-        }
-      });
-      remainingVotes.value = res.data.remainChance;
-    }
-  });
+const getList = async () => {
+  let code = localStorage.getItem("code");
+  let phone = localStorage.getItem("phone");
+  let token = localStorage.getItem("token");
+  let res;
+  if (token) {
+    res = await optionsApp();
+  } else {
+    res = await options({
+      phone,
+      code,
+    });
+  }
+  if (res.code == 400) {
+    showLogin.value = true;
+  } else {
+    optionsList.value = res.data.voteOptionList || [];
+    res.data.voteOptionList.forEach((item) => {
+      if (item.isSelect) {
+        arrayVoteIds.value.push(item.id); // 将选中的ID添加到数组
+      }
+    });
+    remainingVotes.value = res.data.remainChance;
+  }
 };
 // 投票
-const voteOption = () => {
+const voteOption = async () => {
   if (arrayVoteIds.value.length == 0) {
     showFailToast("请选择投票选项");
     return;
   }
-  vote({
-    code: localStorage.getItem("code"),
-    phone: localStorage.getItem("phone"),
-    voteIds: arrayVoteIds.value,
-  }).then((res) => {
-    console.log(res);
-    if (res.code == 0) {
-      showSuccessToast("投票成功");
-      arrayVoteIds.value = [];
-      getList();
-    }
-  });
+  let code = localStorage.getItem("code");
+  let phone = localStorage.getItem("phone");
+  let voteIds = arrayVoteIds.value;
+  let token = localStorage.getItem("token");
+  let res;
+  if (token) {
+    res = await voteApp({
+      voteIds,
+    });
+  } else {
+    res = await vote({
+      code,
+      phone,
+      voteIds,
+    });
+  }
+  console.log(res);
+  if (res.code == 0) {
+    showSuccessToast("投票成功");
+    arrayVoteIds.value = [];
+    getList();
+  }
 };
 onMounted(() => {
-  showLogin.value = !localStorage.getItem("phone");
-  getList();
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlToken = urlParams.get("token");
+  if (route.query.token || urlToken) {
+    window.console.log(route.query.token || urlToken);
+    localStorage.setItem("token", route.query.token || urlToken);
+  }
+  setTimeout(() => {
+    showLogin.value = !localStorage.getItem("token");
+    getList();
+  }, 0);
 });
 </script>
 <style>
@@ -230,32 +264,7 @@ onMounted(() => {
     width: 80%;
     margin: 5px auto;
   }
-  .item-btn-selected {
-    width: 60px;
-    background-color: #c7000b !important;
-    color: #fff !important;
-    border: none;
-    padding: 0px;
-    height: 28px;
-    box-shadow: none;
-  }
-  .item-btn {
-    width: 60px;
-    background-color: #f0f0f0 !important;
-    color: black;
-    padding: 0px;
-    height: 28px;
-    box-shadow: none;
-    &:hover {
-      background-color: #f0f0f0 !important;
-      color: black !important;
-    }
-    &:disabled {
-      background-color: #c7000b !important;
-      color: #fff !important;
-      border: none;
-    }
-  }
+
   .item-btn-disabled {
     background: #f0f0f0;
     color: black;
@@ -334,5 +343,31 @@ div {
 .submit-btn {
   width: 90%;
   background-color: #c7000b !important;
+}
+.item-btn-selected {
+  width: 60px;
+  background-color: #c7000b !important;
+  color: #fff !important;
+  border: none;
+  padding: 0px;
+  height: 28px;
+  box-shadow: none;
+}
+.item-btn {
+  width: 60px;
+  background-color: #f0f0f0 !important;
+  color: black;
+  padding: 0px;
+  height: 28px;
+  box-shadow: none;
+  &:hover {
+    background-color: #f0f0f0 !important;
+    color: black !important;
+  }
+  &:disabled {
+    background-color: #c7000b !important;
+    color: #fff !important;
+    border: none;
+  }
 }
 </style>
