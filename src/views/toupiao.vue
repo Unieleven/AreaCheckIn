@@ -87,14 +87,12 @@
   >
     <div class="detailBox">
       <div class="imgBox">
-        <img :src="imgUrl" alt="" />
+        <img :src="detailInfo.imageUrl" alt="" />
       </div>
-      <div class="detail-title">华为海思麒麟CPU HI6260 GFC V100</div>
-      <div class="detail-manufacturer">华为科技有限公司</div>
+      <div class="detail-title">{{ detailInfo.title }}</div>
+      <div class="detail-manufacturer">{{ detailInfo.company }}</div>
       <div class="detail-description">
-        华为海思麒麟CPU HI6260 GFC V100介绍华为海思麒麟CPU HI6260 GFC
-        V100介绍华为海思麒麟CPU HI6260 GFC V100介绍华为海思麒麟CPU HI6260 GFC
-        V100介绍华为海思麒麟CPU HI6260 GFC V100介绍华为海思麒麟CPU
+        {{ detailInfo.description }}
       </div>
     </div>
   </van-popup>
@@ -123,9 +121,7 @@ const showLogin = ref(false);
 // 显示奖品详情
 const showDetail = ref(false);
 // 投票项图片
-const imgUrl = ref(
-  "https://hislicon-connect-admin.issmart.com.cn/uploadfile/HaiSiFile/item-img.png"
-);
+const detailInfo = ref({});
 const phone = ref("");
 const phoneCode = ref("");
 const remainingVotes = ref("");
@@ -138,8 +134,7 @@ const state = reactive({
 // 展示奖品详情
 const handleDetail = (item) => {
   showDetail.value = true; // 打开详情弹窗
-  console.log(item);
-  // 这里可以添加更多逻辑来处理奖品详情的展示
+  detailInfo.value = item;
 };
 // 切换选中状态
 const handleVote = (item) => {
@@ -263,7 +258,6 @@ onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
   const urlToken = urlParams.get("token");
   if (route.query.token || urlToken) {
-    window.console.log(route.query.token || urlToken);
     localStorage.setItem("token", route.query.token || urlToken);
   }
   setTimeout(() => {
@@ -296,6 +290,9 @@ onMounted(() => {
   width: calc((100% - 10px) / 2);
   background: #ffffff;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .item-name {
     /* text-align: left; */
     font-size: 14px;
@@ -387,6 +384,7 @@ div {
   bottom: 40px;
 }
 .item-btn-selected {
+  margin-top: auto;
   width: 60px;
   background-color: #c7000b !important;
   color: #fff !important;
@@ -396,6 +394,7 @@ div {
   box-shadow: none;
 }
 .item-btn {
+  margin-top: auto;
   width: 60px;
   background-color: #f0f0f0 !important;
   color: black;
