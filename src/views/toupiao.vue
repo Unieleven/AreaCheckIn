@@ -121,7 +121,7 @@ const loginButton = ref(true);
 // 显示登录窗口
 const showLogin = ref(false);
 // 显示奖品详情
-const showDetail = ref(true);
+const showDetail = ref(false);
 // 投票项图片
 const imgUrl = ref(
   "https://hislicon-connect-admin.issmart.com.cn/uploadfile/HaiSiFile/item-img.png"
