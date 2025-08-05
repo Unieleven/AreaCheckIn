@@ -80,7 +80,7 @@
     :close-on-click-overlay="true"
     closeable
     :style="{
-      height: '50%',
+      height: '425px',
       width: '90%',
       maxWidth: '320px',
     }"
