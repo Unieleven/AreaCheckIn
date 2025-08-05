@@ -1,4 +1,5 @@
 <template>
+  <div></div>
   <div class="toupiaoPage">
     <div class="listBox">
       <div class="listBox-title">
@@ -8,7 +9,7 @@
       <div class="list-bg">
         <div class="list">
           <div v-for="(item, index) in optionsList" :key="index" class="item">
-            <img :src="item.imageUrl" alt="" />
+            <img :src="item.imageUrl" alt="" @click="handleDetail(item)" />
             <div class="item-name">{{ item.title }}</div>
             <Button
               type="primary"
@@ -72,6 +73,31 @@
       >登录</Button
     >
   </van-popup>
+  <!-- 奖品详情 -->
+  <van-popup
+    v-model:show="showDetail"
+    round
+    :close-on-click-overlay="true"
+    closeable
+    :style="{
+      height: '50%',
+      width: '90%',
+      maxWidth: '320px',
+    }"
+  >
+    <div class="detailBox">
+      <div class="imgBox">
+        <img :src="imgUrl" alt="" />
+      </div>
+      <div class="detail-title">华为海思麒麟CPU HI6260 GFC V100</div>
+      <div class="detail-manufacturer">华为科技有限公司</div>
+      <div class="detail-description">
+        华为海思麒麟CPU HI6260 GFC V100介绍华为海思麒麟CPU HI6260 GFC
+        V100介绍华为海思麒麟CPU HI6260 GFC V100介绍华为海思麒麟CPU HI6260 GFC
+        V100介绍华为海思麒麟CPU HI6260 GFC V100介绍华为海思麒麟CPU
+      </div>
+    </div>
+  </van-popup>
 </template>
 <script setup>
 import { ref, reactive, onMounted } from "vue";
@@ -86,13 +112,20 @@ import {
 } from "@/api/toupiao.js";
 import { showSuccessToast, showFailToast } from "vant";
 import { useRoute, useRouter } from "vue-router";
+import transform from "ant-design-vue/es/_util/cssinjs/transformers/px2rem";
 const route = useRoute();
 // 登录按钮loading
 const loginLoading = ref();
 // 登录按钮禁用
 const loginButton = ref(true);
-// 登录
+// 显示登录窗口
 const showLogin = ref(false);
+// 显示奖品详情
+const showDetail = ref(true);
+// 投票项图片
+const imgUrl = ref(
+  "https://hislicon-connect-admin.issmart.com.cn/uploadfile/HaiSiFile/item-img.png"
+);
 const phone = ref("");
 const phoneCode = ref("");
 const remainingVotes = ref("");
@@ -102,6 +135,12 @@ const state = reactive({
   codeButton: false, // 是否禁用验证码按钮
   codetext: "获取验证码", // 验证码按钮文本
 });
+// 展示奖品详情
+const handleDetail = (item) => {
+  showDetail.value = true; // 打开详情弹窗
+  console.log(item);
+  // 这里可以添加更多逻辑来处理奖品详情的展示
+};
 // 切换选中状态
 const handleVote = (item) => {
   if (remainingVotes.value == 0 && !item.isSelect) {
@@ -245,7 +284,6 @@ onMounted(() => {
     width: 100%;
     aspect-ratio: 250 / 483;
   }
-  /* .listBox {} */
 }
 .list-bg {
   display: flex;
@@ -279,14 +317,13 @@ div {
   box-sizing: border-box;
 }
 .toupiaoPage {
-  position: relative;
   padding: 0 15px;
   width: 100%;
-  height: 95vh;
-  position: relative;
+  aspect-ratio: 250 / 483;
+  /* height: 100vh; */
   background-image: url("../image/hs/toupiao.png");
   background-size: 100% 100%;
-  padding-top: 250px;
+  padding-top: 220px;
 }
 .listBox {
   width: 100%;
@@ -296,8 +333,10 @@ div {
   border-radius: 20px 20px 0 0;
   padding: 15px 10px 0;
   overflow: hidden;
+  /* position: relative; */
 }
 .listBox-title {
+  font-size: 16px;
   margin-left: 20px;
   margin-bottom: 10px;
   display: flex;
@@ -341,8 +380,11 @@ div {
   color: #3d3d3d;
 }
 .submit-btn {
-  width: 90%;
+  width: 80%;
   background-color: #c7000b !important;
+  position: absolute;
+  left: 10%;
+  bottom: 40px;
 }
 .item-btn-selected {
   width: 60px;
@@ -369,5 +411,43 @@ div {
     color: #fff !important;
     border: none;
   }
+}
+.detailBox {
+  padding: 45px 15px 10px;
+  height: 100%;
+  text-align: left;
+  background-color: #f7e4e2;
+  overflow-y: auto;
+}
+.imgBox {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  img {
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+.detail-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 20px 0 10px;
+}
+.detail-manufacturer {
+  font-size: 14px;
+  color: #999;
+}
+.detail-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-top: 10px;
+  height: 105px;
+  overflow: auto;
+  scrollbar-width: none;
 }
 </style>
