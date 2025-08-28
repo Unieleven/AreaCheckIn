@@ -20,10 +20,11 @@
           </div>
         </div>
       </div>
-      <Button class="submit-btn" type="primary" @click="voteOption"
+      
+    </div>
+    <Button class="submit-btn" type="primary" @click="voteOption"
         >确认投票</Button
       >
-    </div>
   </div>
   <!-- 手机号登录 -->
   <van-popup
@@ -77,7 +78,7 @@
   <van-popup
     v-model:show="showDetail"
     round
-    :close-on-click-overlay="true"
+    :close-on-click-overlay="false"
     closeable
     :style="{
       height: '425px',
@@ -274,7 +275,7 @@ onMounted(() => {
   }
   .toupiaoPage {
     position: relative;
-    padding: 0 15px;
+    padding: 0 15px 20px;
     width: 100%;
     aspect-ratio: 250 / 483;
   }
@@ -314,13 +315,14 @@ div {
   box-sizing: border-box;
 }
 .toupiaoPage {
-  padding: 0 15px;
+  padding: 0 15px 20px;
   width: 100%;
   aspect-ratio: 250 / 483;
   /* height: 100vh; */
   background-image: url("../image/hs/toupiao.png");
   background-size: 100% 100%;
-  padding-top: 220px;
+  padding-top: 240px;
+  position: relative;
 }
 .listBox {
   width: 100%;
@@ -379,9 +381,6 @@ div {
 .submit-btn {
   width: 80%;
   background-color: #c7000b !important;
-  position: absolute;
-  left: 10%;
-  bottom: 40px;
 }
 .item-btn-selected {
   margin-top: auto;
