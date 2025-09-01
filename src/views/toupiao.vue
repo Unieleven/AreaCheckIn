@@ -9,8 +9,10 @@
       <div class="list-bg">
         <div class="list">
           <div v-for="(item, index) in optionsList" :key="index" class="item">
-            <img :src="item.imageUrl" alt="" @click="handleDetail(item)" />
+            <!-- <img :src="item.imageUrl" alt="" @click="handleDetail(item)" /> -->
+            <img src="https://hislicon-connect-admin.issmart.com.cn/HIC/product1.png" alt="" @click="handleDetail(item)" />
             <div class="item-name">{{ item.title }}</div>
+            <div class="">{{ item.company }}</div>
             <Button
               type="primary"
               :class="item.isSelect ? 'item-btn-selected' : 'item-btn'"
@@ -20,11 +22,10 @@
           </div>
         </div>
       </div>
-      
     </div>
     <Button class="submit-btn" type="primary" @click="voteOption"
-        >确认投票</Button
-      >
+      >确认投票</Button
+    >
   </div>
   <!-- 手机号登录 -->
   <van-popup
@@ -225,6 +226,15 @@ const getList = async () => {
     });
     remainingVotes.value = res.data.remainChance;
   }
+  optionsList.value[0] = {
+    title: "小蓝翼AI节能空调",
+    imageUrl: "https://hislicon-connect-admin.issmart.com.cn/HIC/product1.png",
+    isSelect: false,
+    id: 1,
+    company: "TCL空调",
+    description:
+      "TCL小蓝翼P7新一代新风空调，基于空调运行环境、目标参数，通过海思eMCU的嵌入式强化AI算法对复杂工况进行学习，提高运行周期内的整体能效，最终通过端侧AI达成能耗降低16%以上的效果，成为AI省电空调的发明者、新一代空调的定义者。",
+  };
 };
 // 投票
 const voteOption = async () => {
@@ -287,7 +297,7 @@ onMounted(() => {
   gap: 10px;
 }
 .item {
-  padding: 10px;
+  padding: 15px 10px 10px;
   width: calc((100% - 10px) / 2);
   background: #ffffff;
   border-radius: 10px;
@@ -295,10 +305,9 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   .item-name {
-    /* text-align: left; */
     font-size: 14px;
-    width: 80%;
-    margin: 5px auto;
+    /* width: 80%; */
+    margin: 10px auto;
   }
 
   .item-btn-disabled {
@@ -444,8 +453,8 @@ div {
   color: #666;
   line-height: 1.5;
   margin-top: 10px;
-  height: 105px;
+  height: 140px;
   overflow: auto;
-  scrollbar-width: none;
+  /* scrollbar-width: none; */
 }
 </style>
