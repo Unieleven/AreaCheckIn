@@ -1,6 +1,21 @@
 <template>
   <div></div>
   <div class="toupiaoPage">
+    <div class="top-title">
+      <img src="../image/hs/title.png" alt="" />
+    </div>
+    <div class="top-shortTile">
+      <img src="../image/hs/shortTitle.png" alt="" />
+    </div>
+    <div class="top-text">
+      与芯同行，创新既需要远见，也需要勇气，更需要坚持。创新的每一步都值得喝彩，每一位参与者都值得铭记。
+    </div>
+    <div class="top-text">
+      同芯共创，只是一个小小的窗口，旨在向所有创新者致敬，感谢你们围绕音视频、星闪联接、开源鸿蒙、端侧AI的创新前行和卓越贡献。
+    </div>
+    <div class="top-text">
+      未来已来，行则将至，上海海思愿与每位创新者携手同行，共促行业高质量发展，重构世界产业价值格局。
+    </div>
     <div class="listBox">
       <div class="listBox-title">
         <div>请选择你心目中的TOP10</div>
@@ -9,10 +24,9 @@
       <div class="list-bg">
         <div class="list">
           <div v-for="(item, index) in optionsList" :key="index" class="item">
-            <!-- <img :src="item.imageUrl" alt="" @click="handleDetail(item)" /> -->
-            <img src="https://hislicon-connect-admin.issmart.com.cn/HIC/product1.png" alt="" @click="handleDetail(item)" />
+            <img :src="item.imageUrl" alt="" @click="handleDetail(item)" />
             <div class="item-name">{{ item.title }}</div>
-            <div class="">{{ item.company }}</div>
+            <div class="item-company">{{ item.company }}</div>
             <Button
               type="primary"
               :class="item.isSelect ? 'item-btn-selected' : 'item-btn'"
@@ -88,11 +102,11 @@
     }"
   >
     <div class="detailBox">
+      <div class="detail-title">{{ detailInfo.title }}</div>
+      <div class="detail-manufacturer">{{ detailInfo.company }}</div>
       <div class="imgBox">
         <img :src="detailInfo.imageUrl" alt="" />
       </div>
-      <div class="detail-title">{{ detailInfo.title }}</div>
-      <div class="detail-manufacturer">{{ detailInfo.company }}</div>
       <div class="detail-description">
         {{ detailInfo.description }}
       </div>
@@ -226,15 +240,6 @@ const getList = async () => {
     });
     remainingVotes.value = res.data.remainChance;
   }
-  optionsList.value[0] = {
-    title: "小蓝翼AI节能空调",
-    imageUrl: "https://hislicon-connect-admin.issmart.com.cn/HIC/product1.png",
-    isSelect: false,
-    id: 1,
-    company: "TCL空调",
-    description:
-      "TCL小蓝翼P7新一代新风空调，基于空调运行环境、目标参数，通过海思eMCU的嵌入式强化AI算法对复杂工况进行学习，提高运行周期内的整体能效，最终通过端侧AI达成能耗降低16%以上的效果，成为AI省电空调的发明者、新一代空调的定义者。",
-  };
 };
 // 投票
 const voteOption = async () => {
@@ -306,13 +311,22 @@ onMounted(() => {
   align-items: center;
   .item-name {
     font-size: 14px;
-    /* width: 80%; */
-    margin: 10px auto;
+    font-weight: bolder;
+    margin: 10px auto 7px;
   }
-
+  .item-company {
+    font-size: 12px;
+    color: #3d3d3d;
+    font-weight: bolder;
+    opacity: 0.6;
+    margin-bottom: 15px;
+  }
   .item-btn-disabled {
     background: #f0f0f0;
     color: black;
+  }
+  img{
+    aspect-ratio: 2/1;
   }
 }
 .item img {
@@ -324,18 +338,35 @@ div {
   box-sizing: border-box;
 }
 .toupiaoPage {
-  padding: 0 15px 20px;
+  padding: 0 15px 40px;
   width: 100%;
   aspect-ratio: 250 / 483;
   /* height: 100vh; */
-  background-image: url("../image/hs/toupiao.png");
+  background-image: url("../image/hs/contentBag.png");
   background-size: 100% 100%;
-  padding-top: 240px;
+  padding-top: 50px;
   position: relative;
+}
+.top-title {
+  width: 80%;
+  aspect-ratio: 7.57/1;
+  margin: 0 auto;
+}
+.top-shortTile {
+  width: 70%;
+  aspect-ratio: 22.9/1;
+  margin: 30px auto;
+}
+.top-text {
+  width: 100%;
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: 20px;
+  line-height: 20px;
 }
 .listBox {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 140px);
   background: rgba(255, 255, 255, 0.75);
   border: 3px solid #ffffff;
   border-radius: 20px 20px 0 0;
@@ -402,7 +433,6 @@ div {
   box-shadow: none;
 }
 .item-btn {
-  margin-top: auto;
   width: 60px;
   background-color: #f0f0f0 !important;
   color: black;
@@ -423,8 +453,8 @@ div {
   padding: 45px 15px 10px;
   height: 100%;
   text-align: left;
-  background-color: #f7e4e2;
-  overflow-y: auto;
+  background: rgba(254, 244, 249, 0.8);
+  overflow-y: hidden;
 }
 .imgBox {
   background-color: #fff;
@@ -432,6 +462,7 @@ div {
   width: 100%;
   height: auto;
   margin: 0 auto;
+  aspect-ratio: 145/71;
   img {
     border-radius: 10px;
     width: 100%;
@@ -440,13 +471,17 @@ div {
   }
 }
 .detail-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 20px 0 10px;
+  font-size: 16px;
+  font-weight: 900;
+  margin: 20px auto 10px;
+  text-align: center;
 }
 .detail-manufacturer {
   font-size: 14px;
   color: #999;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .detail-description {
   font-size: 14px;
