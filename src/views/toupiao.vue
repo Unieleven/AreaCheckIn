@@ -309,26 +309,27 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  .item-name {
-    font-size: 14px;
-    font-weight: bolder;
-    margin: 10px auto 7px;
-  }
-  .item-company {
-    font-size: 12px;
-    color: #3d3d3d;
-    font-weight: bolder;
-    opacity: 0.6;
-    margin-bottom: 15px;
-  }
-  .item-btn-disabled {
-    background: #f0f0f0;
-    color: black;
-  }
-  img{
-    aspect-ratio: 2/1;
-  }
 }
+.item-name {
+  font-size: 14px !important;
+  font-weight: bolder;
+  margin: 10px auto 7px;
+}
+.item-company {
+  font-size: 12px !important;
+  color: #3d3d3d;
+  font-weight: bolder;
+  opacity: 0.6;
+  margin-bottom: 15px;
+}
+.item-btn-disabled {
+  background: #f0f0f0;
+  color: black;
+}
+img {
+  aspect-ratio: 2/1;
+}
+
 .item img {
   width: 100%;
   height: auto;
@@ -359,9 +360,9 @@ div {
 }
 .top-text {
   width: 100%;
-  font-size: 14px;
+  font-size: 14px !important;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   line-height: 20px;
 }
 .listBox {
@@ -375,7 +376,7 @@ div {
   /* position: relative; */
 }
 .listBox-title {
-  font-size: 16px;
+  font-size: 16px !important;
   margin-left: 20px;
   margin-bottom: 10px;
   display: flex;
@@ -471,20 +472,20 @@ div {
   }
 }
 .detail-title {
-  font-size: 16px;
+  font-size: 16px !important;
   font-weight: 900;
   margin: 20px auto 10px;
   text-align: center;
 }
 .detail-manufacturer {
-  font-size: 14px;
+  font-size: 14px !important;
   color: #999;
   font-weight: 900;
   text-align: center;
   margin-bottom: 10px;
 }
 .detail-description {
-  font-size: 14px;
+  font-size: 14px !important;
   color: #666;
   line-height: 1.5;
   margin-top: 10px;
