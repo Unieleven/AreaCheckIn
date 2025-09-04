@@ -42,7 +42,6 @@
         controls
         :src="videoSrc"
         class="video"
-        poster="../image/H5long/framdemo/帧-002625.jpg"
       ></video>
       <div>
         <CloseCircleOutlined
